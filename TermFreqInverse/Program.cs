@@ -15,6 +15,7 @@ namespace TermFreqInverse
             //string filename = "TFIDF.txt";
             string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string filename = filePath+ @"\TFIDF.txt";
+            string filename_2 = filePath + @"\TFIDF_2.txt";
             string inputString = File.ReadAllText(filename);
 
             // Convert our input to lowercase
@@ -86,12 +87,46 @@ namespace TermFreqInverse
                 }
             }
 
-            // Wait for the user to press a key before exiting
+            // This part is for cosine similarity
+            Console.WriteLine("========Cosine Similarity=============");
+            int[] vecA = { 1, 2, 3, 4, 5 };
+            int[] vecB = { 6, 7, 7, 9, 10 };
+
+            var cosSimilarity = CalculateCosineSimilarity(vecA, vecB);
+
+            Console.WriteLine(cosSimilarity);            
             Console.ReadKey();
 
-        } // End of Main method
+        }
+        private static double CalculateCosineSimilarity(int[] vecA, int[] vecB)
+        {
+            var dotProduct = DotProduct(vecA, vecB);
+            var magnitudeOfA = Magnitude(vecA);
+            var magnitudeOfB = Magnitude(vecB);
 
-    } // End of Program class
+            return dotProduct / (magnitudeOfA * magnitudeOfB);
+        }
+
+        private static double DotProduct(int[] vecA, int[] vecB)
+        {
+            // I'm not validating inputs here for simplicity.            
+            double dotProduct = 0;
+            for (var i = 0; i < vecA.Length; i++)
+            {
+                dotProduct += (vecA[i] * vecB[i]);
+            }
+
+            return dotProduct;
+        }
+
+        // Magnitude of the vector is the square root of the dot product of the vector with itself.
+        private static double Magnitude(int[] vector)
+        {
+            return Math.Sqrt(DotProduct(vector, vector));
+        }
+
+
+    } 
 
 }
 
